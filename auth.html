@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebGuard – Login / Register</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Custom CSS (shared) -->
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Auth page CSS -->
+  <link rel="stylesheet" href="css/auth.css" />
+</head>
+<body class="auth-body">
+
+  <!-- ── Back to home link ─────────────────── -->
+  <a href="index.html" class="auth-back-link">
+    <i class="bi bi-arrow-left"></i> Back to home
+  </a>
+
+  <div class="auth-page">
+
+    <!-- ══════════════════════════════════════
+         LEFT PANEL — branding / info
+    ═══════════════════════════════════════ -->
+    <div class="auth-left">
+      <div class="auth-left-inner">
+
+        <!-- Logo -->
+        <div class="d-flex align-items-center gap-2 mb-5">
+          <div class="wg-logo-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <span class="wg-logo-text" style="color:white">WebGuard</span>
+        </div>
+
+        <!-- Headline -->
+        <h2 class="auth-left-heading">
+          Protecting Caleb University's digital infrastructure.
+        </h2>
+        <p class="auth-left-sub">
+          Automated vulnerability scanning built specifically for university web applications — student portals, LMS platforms, and admin dashboards.
+        </p>
+
+        <!-- Stats row -->
+        <div class="auth-stats">
+          <div class="auth-stat">
+            <div class="auth-stat-num">10+</div>
+            <div class="auth-stat-lbl">Apps Scanned</div>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <div class="auth-stat-num">OWASP</div>
+            <div class="auth-stat-lbl">Top 10 Aligned</div>
+          </div>
+          <div class="auth-stat-divider"></div>
+          <div class="auth-stat">
+            <div class="auth-stat-num">2-tier</div>
+            <div class="auth-stat-lbl">Reports</div>
+          </div>
+        </div>
+
+        <!-- Floating security card -->
+        <div class="auth-security-card">
+          <div class="auth-sc-row">
+            <div class="auth-sc-icon bg-green">
+              <i class="bi bi-shield-fill-check"></i>
+            </div>
+            <div>
+              <div class="auth-sc-title">Last scan completed</div>
+              <div class="auth-sc-sub">student-portal.caleb.edu.ng</div>
+            </div>
+            <div class="auth-sc-badge">Clean</div>
+          </div>
+          <div class="auth-sc-divider"></div>
+          <div class="auth-sc-row">
+            <div class="auth-sc-icon bg-red">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div>
+              <div class="auth-sc-title">3 high-severity issues</div>
+              <div class="auth-sc-sub">lms.caleb.edu.ng · Needs review</div>
+            </div>
+            <div class="auth-sc-badge auth-sc-badge-warn">Review</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom label -->
+      <div class="auth-left-footer">
+        <i class="bi bi-building me-2"></i> A Caleb University Research Project · 2026
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         RIGHT PANEL — auth form
+    ═══════════════════════════════════════ -->
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+
+        <!-- Tab toggle -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">
+            Log in
+          </button>
+          <button class="auth-tab" id="tab-register" onclick="switchTab('register')">
+            Create account
+          </button>
+        </div>
+
+
+        <!-- ── LOGIN FORM ──────────────────── -->
+        <div id="form-login">
+          <div class="auth-form-header">
+            <h3 class="auth-form-title">Welcome back</h3>
+            <p class="auth-form-sub">Sign in to your WebGuard account to continue scanning.</p>
+          </div>
+
+          <!--
+            DJANGO NOTE:
+            When you connect Django, change action to:
+              action="{% url 'login' %}"
+            and add: {% csrf_token %} inside the form
+          -->
+          <form id="loginForm" novalidate>
+
+            <!-- Role selector -->
+            <div class="mb-4">
+              <label class="auth-label">I am a</label>
+              <div class="auth-role-group">
+                <button type="button" class="auth-role-btn active" data-role="it">
+                  <i class="bi bi-person-gear"></i> IT Personnel
+                </button>
+                <button type="button" class="auth-role-btn" data-role="admin">
+                  <i class="bi bi-person-badge"></i> Administrator
+                </button>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="auth-label" for="loginEmail">Email address</label>
+              <div class="auth-input-wrap">
+                <i class="bi bi-envelope auth-input-icon"></i>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  name="email"
+                  class="auth-input"
+                  placeholder="you@caleb.edu.ng"
+                  required
+                />
+              </div>
+              <div class="auth-error" id="loginEmailErr"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="auth-label mb-0" for="loginPassword">Password</label>
+                <a href="#" class="auth-forgot">Forgot password?</a>
+              </div>
+              <div class="auth-input-wrap">
+                <i class="bi bi-lock auth-input-icon"></i>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  name="password"
+                  class="auth-input"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button type="button" class="auth-eye-btn" onclick="togglePassword('loginPassword', this)">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div class="auth-error" id="loginPassErr"></div>
+            </div>
+
+            <!-- Remember me -->
+            <div class="d-flex align-items-center gap-2 mb-4">
+              <div class="auth-check-wrap">
+                <input type="checkbox" id="rememberMe" class="auth-checkbox" />
+                <label for="rememberMe" class="auth-check-label">Keep me signed in</label>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+              <span id="loginBtnText">Sign in to WebGuard</span>
+              <span id="loginSpinner" class="auth-spinner d-none"></span>
+              <i class="bi bi-arrow-right ms-2" id="loginArrow"></i>
+            </button>
+
+          </form>
+
+          <p class="auth-switch-text">
+            Don't have an account?
+            <a href="#" onclick="switchTab('register'); return false;">Create one here</a>
+          </p>
+        </div>
+
+
+        <!-- ── REGISTER FORM ───────────────── -->
+        <div id="form-register" class="d-none">
+          <div class="auth-form-header">
+            <h3 class="auth-form-title">Create your account</h3>
+            <p class="auth-form-sub">Join WebGuard to start scanning Caleb University web applications.</p>
+          </div>
+
+          <!--
+            DJANGO NOTE:
+            When you connect Django, change action to:
+              action="{% url 'register' %}"
+            and add: {% csrf_token %} inside the form
+          -->
+          <form id="registerForm" novalidate>
+
+            <!-- Name row -->
+            <div class="row g-3 mb-3">
+              <div class="col-6">
+                <label class="auth-label" for="regFirstName">First name</label>
+                <div class="auth-input-wrap">
+                  <i class="bi bi-person auth-input-icon"></i>
+                  <input
+                    type="text"
+                    id="regFirstName"
+                    name="first_name"
+                    class="auth-input"
+                    placeholder="John"
+                    required
+                  />
+                </div>
+                <div class="auth-error" id="regFirstErr"></div>
+              </div>
+              <div class="col-6">
+                <label class="auth-label" for="regLastName">Last name</label>
+                <div class="auth-input-wrap">
+                  <input
+                    type="text"
+                    id="regLastName"
+                    name="last_name"
+                    class="auth-input"
+                    placeholder="Doe"
+                    required
+                    style="padding-left:14px"
+                  />
+                </div>
+                <div class="auth-error" id="regLastErr"></div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="auth-label" for="regEmail">University email</label>
+              <div class="auth-input-wrap">
+                <i class="bi bi-envelope auth-input-icon"></i>
+                <input
+                  type="email"
+                  id="regEmail"
+                  name="email"
+                  class="auth-input"
+                  placeholder="you@caleb.edu.ng"
+                  required
+                />
+              </div>
+              <div class="auth-error" id="regEmailErr"></div>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-3">
+              <label class="auth-label" for="regRole">Role</label>
+              <div class="auth-input-wrap">
+                <i class="bi bi-briefcase auth-input-icon"></i>
+                <select id="regRole" name="role" class="auth-input auth-select" required>
+                  <option value="" disabled selected>Select your role</option>
+                  <option value="it">IT Personnel</option>
+                  <option value="admin">Administrator</option>
+                  <option value="researcher">Researcher</option>
+                </select>
+              </div>
+              <div class="auth-error" id="regRoleErr"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label class="auth-label" for="regPassword">Password</label>
+              <div class="auth-input-wrap">
+                <i class="bi bi-lock auth-input-icon"></i>
+                <input
+                  type="password"
+                  id="regPassword"
+                  name="password"
+                  class="auth-input"
+                  placeholder="Create a strong password"
+                  required
+                />
+                <button type="button" class="auth-eye-btn" onclick="togglePassword('regPassword', this)">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <!-- Password strength bar -->
+              <div class="auth-strength-wrap" id="strengthWrap">
+                <div class="auth-strength-bar">
+                  <div class="auth-strength-fill" id="strengthFill"></div>
+                </div>
+                <span class="auth-strength-label" id="strengthLabel">Enter password</span>
+              </div>
+              <div class="auth-error" id="regPassErr"></div>
+            </div>
+
+            <!-- Confirm password -->
+            <div class="mb-4">
+              <label class="auth-label" for="regConfirm">Confirm password</label>
+              <div class="auth-input-wrap">
+                <i class="bi bi-lock-fill auth-input-icon"></i>
+                <input
+                  type="password"
+                  id="regConfirm"
+                  name="confirm_password"
+                  class="auth-input"
+                  placeholder="Repeat your password"
+                  required
+                />
+                <button type="button" class="auth-eye-btn" onclick="togglePassword('regConfirm', this)">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div class="auth-error" id="regConfirmErr"></div>
+            </div>
+
+            <!-- Terms -->
+            <div class="d-flex align-items-start gap-2 mb-4">
+              <div class="auth-check-wrap align-items-start">
+                <input type="checkbox" id="agreeTerms" class="auth-checkbox mt-1" required />
+                <label for="agreeTerms" class="auth-check-label">
+                  I agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="auth-submit-btn" id="regSubmitBtn">
+              <span id="regBtnText">Create Account</span>
+              <span id="regSpinner" class="auth-spinner d-none"></span>
+              <i class="bi bi-arrow-right ms-2" id="regArrow"></i>
+            </button>
+
+          </form>
+
+          <p class="auth-switch-text">
+            Already have an account?
+            <a href="#" onclick="switchTab('login'); return false;">Sign in here</a>
+          </p>
+        </div>
+
+        <!-- Success message (shown after register) -->
+        <div id="form-success" class="d-none text-center py-4">
+          <div class="auth-success-icon">
+            <i class="bi bi-shield-fill-check"></i>
+          </div>
+          <h4 class="auth-success-title">Account created!</h4>
+          <p class="auth-success-sub">Your WebGuard account has been created. You can now sign in and start scanning.</p>
+          <button class="auth-submit-btn mt-3" onclick="switchTab('login')">
+            Go to Sign in <i class="bi bi-arrow-right ms-2"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Auth JS -->
+  <script src="js/auth.js"></script>
+</body>
+</html>

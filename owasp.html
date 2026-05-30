@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebGuard – OWASP Top 10 Guide</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body class="wg-page-body">
+
+  <nav class="navbar navbar-expand-lg navbar-light wg-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <div class="wg-logo-icon"><i class="bi bi-shield-check"></i></div>
+        <span class="wg-logo-text">WebGuard</span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="wg-btn-ghost"><i class="bi bi-arrow-left me-1"></i>Back to home</a>
+        <a href="auth.html" class="wg-btn-primary">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wg-docs-layout">
+
+    <aside class="wg-docs-sidebar">
+      <div class="wg-docs-toc-title">OWASP Top 10</div>
+      <nav class="wg-docs-toc">
+        <a href="#intro" class="wg-toc-item active">Introduction</a>
+        <a href="#a01" class="wg-toc-item"><span class="wg-toc-num">A01</span> Broken Access Control</a>
+        <a href="#a02" class="wg-toc-item"><span class="wg-toc-num">A02</span> Cryptographic Failures</a>
+        <a href="#a03" class="wg-toc-item"><span class="wg-toc-num">A03</span> Injection</a>
+        <a href="#a04" class="wg-toc-item"><span class="wg-toc-num">A04</span> Insecure Design</a>
+        <a href="#a05" class="wg-toc-item"><span class="wg-toc-num">A05</span> Misconfiguration</a>
+        <a href="#a06" class="wg-toc-item"><span class="wg-toc-num">A06</span> Vulnerable Components</a>
+        <a href="#a07" class="wg-toc-item"><span class="wg-toc-num">A07</span> Auth Failures</a>
+        <a href="#a08" class="wg-toc-item"><span class="wg-toc-num">A08</span> Integrity Failures</a>
+        <a href="#a09" class="wg-toc-item"><span class="wg-toc-num">A09</span> Logging Failures</a>
+        <a href="#a10" class="wg-toc-item"><span class="wg-toc-num">A10</span> SSRF</a>
+      </nav>
+      <div class="wg-docs-toc-divider"></div>
+      <a href="docs.html" class="wg-toc-link"><i class="bi bi-file-earmark-text me-2"></i>Documentation</a>
+      <a href="research.html" class="wg-toc-link"><i class="bi bi-journal-text me-2"></i>Research Paper</a>
+    </aside>
+
+    <main class="wg-docs-content">
+
+      <div class="wg-docs-hero">
+        <div class="wg-section-pill">Security Guide</div>
+        <h1 class="wg-docs-title">OWASP Top 10 — 2021 Edition</h1>
+        <p class="wg-docs-lead">The OWASP Top 10 is the globally recognised standard for web application security risks. This guide explains each category in plain language and shows how WebGuard detects it.</p>
+        <div class="wg-owasp-coverage-bar">
+          <div class="wg-owasp-cov-label"><i class="bi bi-shield-fill-check me-2"></i>WebGuard scans for <strong>7 of 10</strong> OWASP Top 10 categories</div>
+        </div>
+      </div>
+
+      <section id="intro" class="wg-docs-section">
+        <h2 class="wg-docs-h2">What is the OWASP Top 10?</h2>
+        <p>The Open Web Application Security Project (OWASP) is a non-profit foundation dedicated to improving software security. Every few years, OWASP publishes its Top 10 — a consensus list of the most critical security risks facing web applications, based on data from hundreds of organisations worldwide.</p>
+        <p>The 2021 edition is the current standard. It reorganised and renamed several categories compared to the 2017 list to reflect how the threat landscape has evolved — for example, adding <em>Insecure Design</em> as a distinct category for the first time.</p>
+        <div class="wg-docs-callout wg-callout-green">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          WebGuard's detection algorithms are built and tested against the <strong>OWASP Top 10: 2021</strong>. Every vulnerability WebGuard finds is mapped to its corresponding OWASP category in reports.
+        </div>
+      </section>
+
+      <!-- A01 -->
+      <section id="a01" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A01</div>
+            <div>
+              <div class="wg-owasp-card-title">Broken Access Control</div>
+              <div class="wg-owasp-card-sub">Moved up from #5 in 2017 — now the most prevalent risk</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-yes"><i class="bi bi-shield-fill-check me-1"></i>Detected by WebGuard</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Access control enforces policy such that users cannot act outside of their intended permissions. When these controls fail or are missing, attackers can access unauthorised functionality or data — viewing other users' accounts, modifying other users' data, or accessing administrative functions.</p>
+            <p><strong>University example:</strong> A student accessing another student's exam results by changing an ID number in the URL. An unauthenticated user reaching the admin dashboard directly via URL.</p>
+            <div class="wg-owasp-example">
+              <div class="wg-example-label">Vulnerable URL pattern</div>
+              <code>https://portal.edu.ng/results?student_id=12345</code>
+              <div class="wg-example-note">Changing the student_id reveals another student's records if access control is missing.</div>
+            </div>
+            <p><strong>How to fix:</strong> Enforce access control server-side on every request. Never rely solely on client-side checks. Log access failures and alert on repeated failures.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A02 -->
+      <section id="a02" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A02</div>
+            <div>
+              <div class="wg-owasp-card-title">Cryptographic Failures</div>
+              <div class="wg-owasp-card-sub">Previously called "Sensitive Data Exposure"</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-yes"><i class="bi bi-shield-fill-check me-1"></i>Detected by WebGuard</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Failures related to cryptography that lead to exposure of sensitive data. This includes transmitting data in clear text, using weak cryptographic algorithms, and improper certificate management.</p>
+            <p><strong>University example:</strong> A student portal served over HTTP instead of HTTPS. Passwords stored using MD5 instead of bcrypt. An expired SSL certificate on the fee payment system.</p>
+            <p><strong>How WebGuard checks:</strong> SSL/TLS certificate validity, expiry date, cipher suite strength, and protocol version. HTTP vs HTTPS detection for all pages handling sensitive data.</p>
+            <p><strong>How to fix:</strong> Enforce HTTPS on all pages. Use TLS 1.2 or higher. Store passwords with bcrypt or Argon2. Never transmit sensitive data in URL parameters.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A03 -->
+      <section id="a03" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A03</div>
+            <div>
+              <div class="wg-owasp-card-title">Injection</div>
+              <div class="wg-owasp-card-sub">Includes SQL injection, XSS, command injection</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-yes"><i class="bi bi-shield-fill-check me-1"></i>Detected by WebGuard</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query. SQL injection, cross-site scripting (XSS), and OS command injection all fall under this category.</p>
+            <p><strong>University example:</strong> A login form vulnerable to SQL injection where entering <code>' OR '1'='1</code> bypasses authentication entirely. An XSS payload in a name field that steals session cookies.</p>
+            <div class="wg-owasp-example">
+              <div class="wg-example-label">SQL Injection payload (test)</div>
+              <code>' OR '1'='1' --</code>
+              <div class="wg-example-note">If the login accepts this as a valid username, the database query is vulnerable to injection.</div>
+            </div>
+            <p><strong>How to fix:</strong> Use parameterised queries (prepared statements) for all database interactions. Validate and sanitise all user input. For XSS: HTML-encode output and implement Content Security Policy (CSP) headers.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A04 -->
+      <section id="a04" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A04</div>
+            <div>
+              <div class="wg-owasp-card-title">Insecure Design</div>
+              <div class="wg-owasp-card-sub">New category in 2021 — focuses on design-level flaws</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-partial"><i class="bi bi-shield-half me-1"></i>Partial coverage</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Insecure design represents missing or ineffective security controls at the design stage. Unlike implementation bugs, these are flaws baked into the architecture — for example, designing a password reset flow that doesn't verify identity before allowing password change.</p>
+            <p><strong>University example:</strong> A "forgot password" flow that emails the actual password in plain text rather than a reset link. A student grade entry system with no audit trail or approval workflow.</p>
+            <p><strong>How to fix:</strong> Use threat modelling during system design. Establish secure design patterns. Conduct security-focused code reviews at the design stage, not only during testing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A05 -->
+      <section id="a05" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A05</div>
+            <div>
+              <div class="wg-owasp-card-title">Security Misconfiguration</div>
+              <div class="wg-owasp-card-sub">Most commonly found issue in practice</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-yes"><i class="bi bi-shield-fill-check me-1"></i>Detected by WebGuard</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Security misconfiguration is the most commonly found issue. It includes missing security headers, default credentials left unchanged, unnecessary services enabled, verbose error messages exposing stack traces, and directory listing enabled on web servers.</p>
+            <p><strong>How WebGuard checks:</strong> HTTP response headers are inspected for the presence of: <code>Strict-Transport-Security</code>, <code>Content-Security-Policy</code>, <code>X-Frame-Options</code>, <code>X-Content-Type-Options</code>, and <code>Referrer-Policy</code>. Missing headers are reported as Medium severity findings.</p>
+            <p><strong>How to fix:</strong> Establish a hardening checklist for server configuration. Remove default accounts. Disable directory listings. Enable all recommended security headers. Review error handling to prevent stack trace disclosure.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A06 -->
+      <section id="a06" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A06</div>
+            <div>
+              <div class="wg-owasp-card-title">Vulnerable and Outdated Components</div>
+              <div class="wg-owasp-card-sub">Third-party libraries and frameworks with known CVEs</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-no"><i class="bi bi-shield-x me-1"></i>Future version</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Components such as libraries, frameworks, and other software modules run with the same privileges as the application. If a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover.</p>
+            <p><strong>University example:</strong> A university LMS running an outdated version of WordPress or Moodle with a known remote code execution vulnerability. jQuery 1.x serving pages vulnerable to documented XSS exploits.</p>
+            <p><strong>How to fix:</strong> Maintain an inventory of all third-party components. Subscribe to security advisories. Establish a patch management process. Use tools like OWASP Dependency-Check or Snyk.</p>
+            <div class="wg-docs-callout wg-callout-blue" style="margin-top:12px">
+              <i class="bi bi-info-circle-fill me-2"></i>Component version detection is planned for a future WebGuard release. Current version focuses on runtime vulnerability detection.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- A07 -->
+      <section id="a07" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A07</div>
+            <div>
+              <div class="wg-owasp-card-title">Identification and Authentication Failures</div>
+              <div class="wg-owasp-card-sub">Formerly "Broken Authentication"</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-yes"><i class="bi bi-shield-fill-check me-1"></i>Detected by WebGuard</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Authentication and session management functions that are implemented incorrectly allow attackers to compromise passwords, keys, or session tokens, or to exploit other implementation flaws to assume other users' identities.</p>
+            <p><strong>University example:</strong> A student portal login with no rate limiting — allowing unlimited password guessing. Session cookies missing the <code>HttpOnly</code> or <code>Secure</code> flags. No CSRF token on the login form.</p>
+            <p><strong>How WebGuard checks:</strong> Analyses login forms for missing CSRF tokens, checks session cookie attributes (HttpOnly, Secure, SameSite), and tests for absence of account lockout or rate limiting mechanisms.</p>
+            <p><strong>How to fix:</strong> Implement rate limiting on authentication endpoints. Require multi-factor authentication for administrative accounts. Set <code>HttpOnly</code>, <code>Secure</code>, and <code>SameSite=Strict</code> on all session cookies. Use CSRF tokens on all state-changing forms.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A08 -->
+      <section id="a08" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A08</div>
+            <div>
+              <div class="wg-owasp-card-title">Software and Data Integrity Failures</div>
+              <div class="wg-owasp-card-sub">New in 2021 — includes insecure CI/CD and auto-updates</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-no"><i class="bi bi-shield-x me-1"></i>Future version</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> This category covers failures relating to code and infrastructure that does not protect against integrity violations — for example, loading JavaScript from untrusted CDNs without Subresource Integrity (SRI) checks, or an insecure deserialisation pipeline.</p>
+            <p><strong>How to fix:</strong> Use Subresource Integrity (SRI) hashes when including external scripts. Sign software packages and updates. Review CI/CD pipelines for integrity checks. Avoid deserialising untrusted data.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A09 -->
+      <section id="a09" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A09</div>
+            <div>
+              <div class="wg-owasp-card-title">Security Logging and Monitoring Failures</div>
+              <div class="wg-owasp-card-sub">Critical for breach detection and forensics</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-no"><i class="bi bi-shield-x me-1"></i>Future version</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> Without logging and monitoring, breaches cannot be detected. This category covers insufficient logging of security-relevant events, failure to monitor logs for suspicious activity, and absence of incident response procedures.</p>
+            <p><strong>University example:</strong> A student portal with no log of failed login attempts — making brute force attacks invisible. No alerting when an admin account logs in at unusual hours.</p>
+            <p><strong>How to fix:</strong> Log all authentication events (success and failure), access control failures, and input validation failures. Centralise logs in a SIEM. Establish alerting thresholds for anomalous activity.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- A10 -->
+      <section id="a10" class="wg-docs-section">
+        <div class="wg-owasp-card">
+          <div class="wg-owasp-card-header">
+            <div class="wg-owasp-number">A10</div>
+            <div>
+              <div class="wg-owasp-card-title">Server-Side Request Forgery (SSRF)</div>
+              <div class="wg-owasp-card-sub">Added in 2021 from community survey data</div>
+            </div>
+            <span class="wg-detect-badge wg-detect-partial"><i class="bi bi-shield-half me-1"></i>Partial coverage</span>
+          </div>
+          <div class="wg-owasp-card-body">
+            <p><strong>What it is:</strong> SSRF flaws occur whenever a web application fetches a remote resource without validating the user-supplied URL. An attacker can coerce the server to send requests to unexpected destinations — including internal network services behind firewalls.</p>
+            <p><strong>University example:</strong> A "check external link" feature on an LMS that can be manipulated to make the server request internal admin interfaces or cloud metadata endpoints.</p>
+            <p><strong>How to fix:</strong> Sanitise and validate all client-supplied URLs. Use an allowlist for permitted domains. Disable HTTP redirections in outbound server requests. Enforce network-layer controls to block server requests to internal resources.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="wg-docs-footer-links">
+        <a href="docs.html" class="wg-docs-footer-btn"><i class="bi bi-file-earmark-text me-2"></i>Documentation</a>
+        <a href="research.html" class="wg-docs-footer-btn"><i class="bi bi-journal-text me-2"></i>Research Paper</a>
+        <a href="auth.html" class="wg-btn-primary"><i class="bi bi-radar me-2"></i>Start Scanning</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const sections = document.querySelectorAll('.wg-docs-section');
+    const tocItems = document.querySelectorAll('.wg-toc-item');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+      tocItems.forEach(t => { t.classList.toggle('active', t.getAttribute('href') === '#' + current); });
+    });
+  </script>
+</body>
+</html>

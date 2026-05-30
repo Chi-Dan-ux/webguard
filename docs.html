@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebGuard – Documentation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body class="wg-page-body">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light wg-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <div class="wg-logo-icon"><i class="bi bi-shield-check"></i></div>
+        <span class="wg-logo-text">WebGuard</span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="wg-btn-ghost"><i class="bi bi-arrow-left me-1"></i>Back to home</a>
+        <a href="auth.html" class="wg-btn-primary">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wg-docs-layout">
+
+    <!-- SIDEBAR TOC -->
+    <aside class="wg-docs-sidebar">
+      <div class="wg-docs-toc-title">Documentation</div>
+      <nav class="wg-docs-toc">
+        <a href="#overview" class="wg-toc-item active">Overview</a>
+        <a href="#getting-started" class="wg-toc-item">Getting Started</a>
+        <a href="#how-it-works" class="wg-toc-item">How It Works</a>
+        <a href="#scan-types" class="wg-toc-item">Scan Modules</a>
+        <a href="#reports" class="wg-toc-item">Understanding Reports</a>
+        <a href="#roles" class="wg-toc-item">User Roles</a>
+        <a href="#faq" class="wg-toc-item">FAQ</a>
+      </nav>
+      <div class="wg-docs-toc-divider"></div>
+      <a href="research.html" class="wg-toc-link"><i class="bi bi-journal-text me-2"></i>Research Paper</a>
+      <a href="owasp.html" class="wg-toc-link"><i class="bi bi-shield-exclamation me-2"></i>OWASP Top 10 Guide</a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="wg-docs-content">
+
+      <div class="wg-docs-hero">
+        <div class="wg-section-pill">Documentation</div>
+        <h1 class="wg-docs-title">WebGuard Documentation</h1>
+        <p class="wg-docs-lead">Everything you need to know to scan, analyse, and report vulnerabilities in Caleb University's web applications.</p>
+      </div>
+
+      <!-- OVERVIEW -->
+      <section id="overview" class="wg-docs-section">
+        <h2 class="wg-docs-h2">Overview</h2>
+        <p>WebGuard is a web-based automated vulnerability scanning and reporting system developed as part of a research project at Caleb University. It is designed specifically for university web environments — student portals, learning management systems (LMS), and administrative dashboards.</p>
+        <p>The system detects common web application vulnerabilities aligned with the <strong>OWASP Top 10</strong> standards and generates multi-level reports: technical detail reports for IT personnel and executive summaries for non-technical administrators.</p>
+
+        <div class="wg-docs-cards">
+          <div class="wg-docs-card">
+            <div class="wg-docs-card-icon wg-icon-blue"><i class="bi bi-search"></i></div>
+            <div class="wg-docs-card-title">Automated scanning</div>
+            <div class="wg-docs-card-desc">Scans web apps for SQLi, XSS, auth weaknesses, and misconfigurations automatically.</div>
+          </div>
+          <div class="wg-docs-card">
+            <div class="wg-docs-card-icon wg-icon-green"><i class="bi bi-file-earmark-bar-graph"></i></div>
+            <div class="wg-docs-card-title">Two-level reports</div>
+            <div class="wg-docs-card-desc">Technical reports for IT staff and plain-language executive summaries for administrators.</div>
+          </div>
+          <div class="wg-docs-card">
+            <div class="wg-docs-card-icon wg-icon-blue"><i class="bi bi-shield-check"></i></div>
+            <div class="wg-docs-card-title">OWASP aligned</div>
+            <div class="wg-docs-card-desc">All detections map to the OWASP Top 10 — the globally recognised web security standard.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GETTING STARTED -->
+      <section id="getting-started" class="wg-docs-section">
+        <h2 class="wg-docs-h2">Getting Started</h2>
+        <p>Follow these steps to run your first vulnerability scan with WebGuard.</p>
+
+        <div class="wg-docs-steps">
+          <div class="wg-docs-step">
+            <div class="wg-step-circle">1</div>
+            <div class="wg-step-body">
+              <div class="wg-step-title">Create your account</div>
+              <p>Click <strong>Get Started</strong> on the homepage. Register using your university email address and select your role — IT Personnel or Administrator.</p>
+            </div>
+          </div>
+          <div class="wg-docs-step">
+            <div class="wg-step-circle">2</div>
+            <div class="wg-step-body">
+              <div class="wg-step-title">Add a target</div>
+              <p>From the dashboard, click <strong>New Scan</strong> in the sidebar. Enter the full URL of the web application you want to assess, e.g. <code>https://student-portal.caleb.edu.ng</code>.</p>
+            </div>
+          </div>
+          <div class="wg-docs-step">
+            <div class="wg-step-circle">3</div>
+            <div class="wg-step-body">
+              <div class="wg-step-title">Configure scan modules</div>
+              <p>Select which vulnerability checks to run: SQL Injection, XSS, Authentication Weaknesses, Security Headers, and SSL/TLS. All are enabled by default for comprehensive coverage.</p>
+            </div>
+          </div>
+          <div class="wg-docs-step">
+            <div class="wg-step-circle">4</div>
+            <div class="wg-step-body">
+              <div class="wg-step-title">Review your report</div>
+              <p>When the scan completes, navigate to <strong>Reports</strong> to view and download your full vulnerability report as a PDF. IT personnel see technical details; administrators see the executive summary.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section id="how-it-works" class="wg-docs-section">
+        <h2 class="wg-docs-h2">How It Works</h2>
+        <p>WebGuard follows a four-stage pipeline for every scan:</p>
+
+        <div class="wg-docs-pipeline">
+          <div class="wg-pipeline-step">
+            <i class="bi bi-globe2"></i>
+            <span class="wg-pipeline-label">1. Crawl</span>
+            <span class="wg-pipeline-desc">Discover all pages, forms, and endpoints</span>
+          </div>
+          <div class="wg-pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+          <div class="wg-pipeline-step">
+            <i class="bi bi-radar"></i>
+            <span class="wg-pipeline-label">2. Probe</span>
+            <span class="wg-pipeline-desc">Inject test payloads into each input</span>
+          </div>
+          <div class="wg-pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+          <div class="wg-pipeline-step">
+            <i class="bi bi-bug"></i>
+            <span class="wg-pipeline-label">3. Analyse</span>
+            <span class="wg-pipeline-desc">Classify findings by severity and OWASP category</span>
+          </div>
+          <div class="wg-pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+          <div class="wg-pipeline-step">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <span class="wg-pipeline-label">4. Report</span>
+            <span class="wg-pipeline-desc">Generate multi-level PDF reports</span>
+          </div>
+        </div>
+
+        <div class="wg-docs-callout wg-callout-blue">
+          <i class="bi bi-info-circle-fill me-2"></i>
+          <strong>Note:</strong> WebGuard performs <em>non-destructive</em> scanning. It tests for vulnerabilities without modifying or deleting any data on the target application.
+        </div>
+      </section>
+
+      <!-- SCAN MODULES -->
+      <section id="scan-types" class="wg-docs-section">
+        <h2 class="wg-docs-h2">Scan Modules</h2>
+        <p>Each scan module targets a specific class of vulnerability. You can enable or disable individual modules before starting a scan.</p>
+
+        <table class="wg-docs-table">
+          <thead>
+            <tr><th>Module</th><th>OWASP Category</th><th>What it detects</th><th>Default</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>SQL Injection</strong></td>
+              <td><span class="wg-owasp-tag">A03:2021</span></td>
+              <td>Unsanitised inputs that can manipulate database queries</td>
+              <td><span class="wg-badge-on">Enabled</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cross-Site Scripting (XSS)</strong></td>
+              <td><span class="wg-owasp-tag">A03:2021</span></td>
+              <td>Reflected and stored XSS in forms and URL parameters</td>
+              <td><span class="wg-badge-on">Enabled</span></td>
+            </tr>
+            <tr>
+              <td><strong>Authentication Weaknesses</strong></td>
+              <td><span class="wg-owasp-tag">A07:2021</span></td>
+              <td>Weak login forms, missing rate limiting, insecure session tokens</td>
+              <td><span class="wg-badge-on">Enabled</span></td>
+            </tr>
+            <tr>
+              <td><strong>Security Headers</strong></td>
+              <td><span class="wg-owasp-tag">A05:2021</span></td>
+              <td>Missing CSP, HSTS, X-Frame-Options, X-Content-Type-Options</td>
+              <td><span class="wg-badge-on">Enabled</span></td>
+            </tr>
+            <tr>
+              <td><strong>SSL/TLS Configuration</strong></td>
+              <td><span class="wg-owasp-tag">A02:2021</span></td>
+              <td>Expired certificates, weak cipher suites, protocol downgrades</td>
+              <td><span class="wg-badge-off">Optional</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- REPORTS -->
+      <section id="reports" class="wg-docs-section">
+        <h2 class="wg-docs-h2">Understanding Reports</h2>
+        <p>WebGuard generates two versions of every scan report, designed for different audiences:</p>
+
+        <div class="wg-docs-report-types">
+          <div class="wg-report-type">
+            <div class="wg-report-type-header wg-rt-blue">
+              <i class="bi bi-code-square me-2"></i>Technical Report (IT Personnel)
+            </div>
+            <div class="wg-report-type-body">
+              <ul>
+                <li>Full vulnerability list with affected URL/endpoint</li>
+                <li>OWASP category and CVE references where applicable</li>
+                <li>Evidence — the exact request/response that triggered the finding</li>
+                <li>Severity score (Critical / High / Medium / Low)</li>
+                <li>Step-by-step remediation instructions</li>
+                <li>Code-level fix recommendations</li>
+              </ul>
+            </div>
+          </div>
+          <div class="wg-report-type">
+            <div class="wg-report-type-header wg-rt-green">
+              <i class="bi bi-person-badge me-2"></i>Executive Summary (Administrators)
+            </div>
+            <div class="wg-report-type-body">
+              <ul>
+                <li>Overall security score (0–100)</li>
+                <li>Risk summary in plain language</li>
+                <li>Number of findings by severity level</li>
+                <li>Priority recommendations (no technical jargon)</li>
+                <li>Comparison with previous scan results</li>
+                <li>Downloadable one-page PDF</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ROLES -->
+      <section id="roles" class="wg-docs-section">
+        <h2 class="wg-docs-h2">User Roles</h2>
+        <p>WebGuard has two user roles with different levels of access:</p>
+
+        <div class="wg-docs-table-wrap">
+          <table class="wg-docs-table">
+            <thead><tr><th>Permission</th><th>IT Personnel</th><th>Administrator</th></tr></thead>
+            <tbody>
+              <tr><td>Start a new scan</td><td><i class="bi bi-check-circle-fill text-success"></i></td><td><i class="bi bi-dash text-muted"></i></td></tr>
+              <tr><td>View technical reports</td><td><i class="bi bi-check-circle-fill text-success"></i></td><td><i class="bi bi-dash text-muted"></i></td></tr>
+              <tr><td>View executive summary</td><td><i class="bi bi-check-circle-fill text-success"></i></td><td><i class="bi bi-check-circle-fill text-success"></i></td></tr>
+              <tr><td>Download PDF reports</td><td><i class="bi bi-check-circle-fill text-success"></i></td><td><i class="bi bi-check-circle-fill text-success"></i></td></tr>
+              <tr><td>Manage scan targets</td><td><i class="bi bi-check-circle-fill text-success"></i></td><td><i class="bi bi-dash text-muted"></i></td></tr>
+              <tr><td>Manage user accounts</td><td><i class="bi bi-dash text-muted"></i></td><td><i class="bi bi-check-circle-fill text-success"></i></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="wg-docs-section">
+        <h2 class="wg-docs-h2">Frequently Asked Questions</h2>
+
+        <div class="wg-faq-list">
+          <div class="wg-faq-item">
+            <div class="wg-faq-q" onclick="toggleFaq(this)">
+              <span>Can WebGuard scan any website, or only Caleb University?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="wg-faq-a">WebGuard can scan any publicly accessible web application. While it was built with Caleb University as the primary case study, you can scan student portals, LMS platforms, or admin dashboards at any institution by entering their URL.</div>
+          </div>
+          <div class="wg-faq-item">
+            <div class="wg-faq-q" onclick="toggleFaq(this)">
+              <span>Does scanning harm or modify the target website?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="wg-faq-a">No. WebGuard performs passive and semi-passive scanning only. It sends crafted HTTP requests to detect vulnerabilities but never writes, deletes, or modifies any data on the target application. Think of it like a security auditor testing a lock — not breaking in.</div>
+          </div>
+          <div class="wg-faq-item">
+            <div class="wg-faq-q" onclick="toggleFaq(this)">
+              <span>How long does a scan take?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="wg-faq-a">Scan duration depends on the size and complexity of the target application. A typical student portal takes 2–5 minutes. A large LMS with many pages and forms may take 10–15 minutes. You will see live progress in the dashboard while scanning.</div>
+          </div>
+          <div class="wg-faq-item">
+            <div class="wg-faq-q" onclick="toggleFaq(this)">
+              <span>What is the security score?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="wg-faq-a">The security score is a 0–100 number calculated based on the number and severity of vulnerabilities found. A score of 80+ is considered Good. 60–79 is Fair — some issues need attention. Below 60 is Poor and requires urgent remediation.</div>
+          </div>
+          <div class="wg-faq-item">
+            <div class="wg-faq-q" onclick="toggleFaq(this)">
+              <span>Is this the same as OWASP ZAP?</span>
+              <i class="bi bi-chevron-down"></i>
+            </div>
+            <div class="wg-faq-a">WebGuard is a purpose-built system inspired by OWASP ZAP but designed specifically for university environments. The research validates WebGuard's detection accuracy through comparative testing against OWASP ZAP on intentionally vulnerable applications.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="wg-docs-footer-links">
+        <a href="research.html" class="wg-docs-footer-btn"><i class="bi bi-journal-text me-2"></i>Read the Research Paper</a>
+        <a href="owasp.html" class="wg-docs-footer-btn"><i class="bi bi-shield-exclamation me-2"></i>OWASP Top 10 Guide</a>
+        <a href="auth.html" class="wg-btn-primary"><i class="bi bi-radar me-2"></i>Start Scanning</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleFaq(el) {
+      const item = el.closest('.wg-faq-item');
+      item.classList.toggle('open');
+    }
+    // Highlight active TOC item on scroll
+    const sections = document.querySelectorAll('.wg-docs-section');
+    const tocItems = document.querySelectorAll('.wg-toc-item');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+      tocItems.forEach(t => { t.classList.toggle('active', t.getAttribute('href') === '#' + current); });
+    });
+  </script>
+</body>
+</html>
