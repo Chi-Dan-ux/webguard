@@ -1,0 +1,471 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebGuard – Automated Vulnerability Scanning for University Web Apps</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════════ -->
+  <nav class="navbar navbar-expand-lg navbar-light wg-navbar sticky-top">
+    <div class="container">
+      <!-- Logo -->
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <div class="wg-logo-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <span class="wg-logo-text">WebGuard</span>
+      </a>
+
+      <!-- Mobile toggle -->
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav links -->
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link wg-nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link wg-nav-link" href="#how-it-works">How it Works</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link wg-nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Resources</a>
+            <ul class="dropdown-menu wg-dropdown">
+              <li><a class="dropdown-item" href="{% url 'docs' %}"><i class="bi bi-file-earmark-text me-2"></i>Documentation</a></li>
+              <li><a class="dropdown-item" href="{% url 'research' %}"><i class="bi bi-journal-text me-2"></i>Research Paper</a></li>
+              <li><a class="dropdown-item" href="{% url 'owasp' %}"><i class="bi bi-shield-exclamation me-2"></i>OWASP Top 10 Guide</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <a href="{% url 'login' %}" class="wg-btn-ghost">Log in</a>
+          <a href="{% url 'register' %}" class="wg-btn-primary">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ════════════════════════════════════════════ -->
+  <section class="wg-hero">
+    <div class="wg-hero-blob"></div>
+    <div class="container">
+      <div class="row align-items-center g-5">
+
+        <!-- Left: Copy -->
+        <div class="col-lg-5">
+          <div class="wg-badge-pill mb-4">
+            <i class="bi bi-shield-check me-2"></i>Smart Scanning. Real Protection.
+          </div>
+          <h1 class="wg-hero-heading">
+            Find vulnerabilities.<br>
+            Fix risks.<br>
+            <span class="wg-hero-accent">Stay secure.</span>
+          </h1>
+          <p class="wg-hero-sub">
+            WebGuard scans your university websites and applications to detect vulnerabilities, prioritise risks, and deliver clear, actionable reports aligned with OWASP Top 10 standards.
+          </p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="{% url 'register' %}" class="wg-btn-primary wg-btn-lg">
+              Start Scanning Now <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+            <a href="{% url 'login' %}" class="wg-btn-outline wg-btn-lg">
+              <i class="bi bi-file-earmark-text me-2"></i>View Sample Report
+            </a>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="d-flex flex-wrap gap-4 mt-5 wg-trust-row">
+            <div class="wg-trust-item">
+              <i class="bi bi-shield-fill-check"></i>
+              <span>Trusted by Caleb University</span>
+            </div>
+            <div class="wg-trust-item">
+              <i class="bi bi-award"></i>
+              <span>OWASP Aligned</span>
+            </div>
+            <div class="wg-trust-item">
+              <i class="bi bi-lock-fill"></i>
+              <span>GDPR Friendly</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Dashboard mockup -->
+        <div class="col-lg-7">
+          <div class="wg-mockup-shell">
+
+            <!-- Mockup top bar -->
+            <div class="wg-mockup-topbar">
+              <div class="wg-mockup-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="wg-mockup-brand">
+                <i class="bi bi-shield-check me-1"></i> WebGuard
+              </div>
+            </div>
+
+            <div class="wg-mockup-body">
+              <!-- Sidebar -->
+              <div class="wg-sidebar">
+                <div class="wg-sidebar-item active"><i class="bi bi-grid-1x2"></i> Overview</div>
+                <div class="wg-sidebar-item"><i class="bi bi-radar"></i> Scans</div>
+                <div class="wg-sidebar-item"><i class="bi bi-bug"></i> Vulnerabilities</div>
+                <div class="wg-sidebar-item"><i class="bi bi-file-earmark-bar-graph"></i> Reports</div>
+                <div class="wg-sidebar-item"><i class="bi bi-bullseye"></i> Targets</div>
+                <div class="wg-sidebar-item"><i class="bi bi-gear"></i> Settings</div>
+              </div>
+
+              <!-- Main content -->
+              <div class="wg-main-content">
+                <div class="wg-content-title">Overview</div>
+
+                <!-- Stats row -->
+                <div class="wg-stats-row">
+                  <!-- Security score -->
+                  <div class="wg-stat-card wg-score-card">
+                    <div class="wg-stat-label">Website Security Score</div>
+                    <div class="wg-score-ring">
+                      <svg viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="#e5e7eb" stroke-width="7"/>
+                        <circle cx="40" cy="40" r="34" fill="none" stroke="#16A34A" stroke-width="7"
+                          stroke-dasharray="154 60" stroke-linecap="round"
+                          transform="rotate(-90 40 40)"/>
+                      </svg>
+                      <div class="wg-score-num">78</div>
+                    </div>
+                    <div class="wg-score-delta"><i class="bi bi-arrow-up"></i> 12% vs last scan</div>
+                    <div class="wg-score-label">Good</div>
+                  </div>
+
+                  <!-- Vulnerabilities -->
+                  <div class="wg-stat-card">
+                    <div class="wg-stat-label">Vulnerabilities</div>
+                    <div class="wg-vuln-row">
+                      <div class="wg-vuln-item">
+                        <span class="wg-vuln-num wg-high">12</span>
+                        <span class="wg-vuln-sev">High</span>
+                      </div>
+                      <div class="wg-vuln-item">
+                        <span class="wg-vuln-num wg-med">28</span>
+                        <span class="wg-vuln-sev">Medium</span>
+                      </div>
+                      <div class="wg-vuln-item">
+                        <span class="wg-vuln-num wg-low">56</span>
+                        <span class="wg-vuln-sev">Low</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Scan activity -->
+                  <div class="wg-stat-card">
+                    <div class="wg-stat-label">Scan Activity</div>
+                    <div class="wg-activity-num">15</div>
+                    <div class="wg-activity-label">Completed Scans</div>
+                    <div class="wg-mini-bars">
+                      <span style="height:12px"></span>
+                      <span style="height:20px"></span>
+                      <span style="height:16px"></span>
+                      <span style="height:28px"></span>
+                      <span style="height:22px"></span>
+                      <span style="height:32px"></span>
+                      <span style="height:18px"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Recent scans table -->
+                <div class="wg-section-label">Recent Scans</div>
+                <div class="wg-scan-table">
+                  <div class="wg-scan-row">
+                    <span class="wg-scan-url">https://example.com</span>
+                    <span class="wg-badge-done">Completed</span>
+                    <span class="wg-scan-score">78</span>
+                    <span class="wg-scan-date">12 May 2024</span>
+                  </div>
+                  <div class="wg-scan-row">
+                    <span class="wg-scan-url">https://app.example.com</span>
+                    <span class="wg-badge-done">Completed</span>
+                    <span class="wg-scan-score">64</span>
+                    <span class="wg-scan-date">10 May 2024</span>
+                  </div>
+                  <div class="wg-scan-row">
+                    <span class="wg-scan-url">https://blog.example.com</span>
+                    <span class="wg-badge-done">Completed</span>
+                    <span class="wg-scan-score">81</span>
+                    <span class="wg-scan-date">9 May 2024</span>
+                  </div>
+                  <div class="wg-scan-row">
+                    <span class="wg-scan-url">https://shop.example.com</span>
+                    <span class="wg-badge-done">Completed</span>
+                    <span class="wg-scan-score">45</span>
+                    <span class="wg-scan-date">8 May 2024</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating scan-in-progress card -->
+            <div class="wg-floating-card">
+              <div class="wg-floating-icon"><i class="bi bi-globe2"></i></div>
+              <div class="wg-floating-body">
+                <div class="wg-floating-title">Scan in Progress</div>
+                <div class="wg-floating-url">https://example.com</div>
+                <div class="wg-progress-bar">
+                  <div class="wg-progress-fill" style="width:72%"></div>
+                </div>
+              </div>
+              <div class="wg-floating-pct">72%</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       FEATURES STRIP
+  ════════════════════════════════════════════ -->
+  <section class="wg-features-strip" id="features">
+    <div class="container">
+      <div class="row g-4">
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="wg-feature-card">
+            <div class="wg-feature-icon wg-icon-blue">
+              <i class="bi bi-search"></i>
+            </div>
+            <h4 class="wg-feature-title">Deep Scanning</h4>
+            <p class="wg-feature-desc">Advanced scanning engine that finds real vulnerabilities, not just noise.</p>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="wg-feature-card">
+            <div class="wg-feature-icon wg-icon-green">
+              <i class="bi bi-shield-exclamation"></i>
+            </div>
+            <h4 class="wg-feature-title">Risk Prioritisation</h4>
+            <p class="wg-feature-desc">Focus on what matters. We prioritise vulnerabilities based on real impact.</p>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="wg-feature-card">
+            <div class="wg-feature-icon wg-icon-blue">
+              <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <h4 class="wg-feature-title">Actionable Reports</h4>
+            <p class="wg-feature-desc">Clear, easy-to-understand reports with remediation guidance for every finding.</p>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+          <div class="wg-feature-card">
+            <div class="wg-feature-icon wg-icon-green">
+              <i class="bi bi-bell"></i>
+            </div>
+            <h4 class="wg-feature-title">Continuous Monitoring</h4>
+            <p class="wg-feature-desc">Stay ahead with scheduled scans and real-time notifications on new threats.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       HOW IT WORKS
+  ════════════════════════════════════════════ -->
+  <section class="wg-section" id="how-it-works">
+    <div class="container text-center">
+      <div class="wg-section-pill">How it Works</div>
+      <h2 class="wg-section-heading">Scan smarter in three steps</h2>
+      <p class="wg-section-sub">WebGuard automates the entire vulnerability assessment workflow from target entry to report delivery.</p>
+
+      <div class="row g-4 mt-3 justify-content-center">
+        <div class="col-md-4">
+          <div class="wg-step-card">
+            <div class="wg-step-num">01</div>
+            <div class="wg-step-icon"><i class="bi bi-link-45deg"></i></div>
+            <h5 class="wg-step-title">Add your target</h5>
+            <p class="wg-step-desc">Enter the URL of the university web application you want to assess. Supports student portals, LMS, and admin dashboards.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="wg-step-card wg-step-accent">
+            <div class="wg-step-num">02</div>
+            <div class="wg-step-icon"><i class="bi bi-radar"></i></div>
+            <h5 class="wg-step-title">Run automated scan</h5>
+            <p class="wg-step-desc">WebGuard runs SQLi, XSS, authentication, and configuration checks aligned with OWASP Top 10 in the background.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="wg-step-card">
+            <div class="wg-step-num">03</div>
+            <div class="wg-step-icon"><i class="bi bi-file-earmark-bar-graph"></i></div>
+            <h5 class="wg-step-title">Get your report</h5>
+            <p class="wg-step-desc">Receive a multi-level report — technical details for IT staff and an executive summary for administrators.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       VULNERABILITY TYPES
+  ════════════════════════════════════════════ -->
+  <section class="wg-vulns-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-5">
+          <div class="wg-section-pill">OWASP Top 10 Coverage</div>
+          <h2 class="wg-section-heading text-start">What WebGuard detects</h2>
+          <p class="wg-section-sub text-start">Comprehensive detection algorithms covering the most critical web application security risks as defined by OWASP.</p>
+          <a href="#" class="wg-btn-primary mt-3">View full coverage</a>
+        </div>
+        <div class="col-lg-7">
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-database-fill-x wg-vc-icon"></i>
+                <div class="wg-vc-title">SQL Injection</div>
+                <div class="wg-vc-sev wg-sev-critical">Critical</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-code-slash wg-vc-icon"></i>
+                <div class="wg-vc-title">Cross-Site Scripting (XSS)</div>
+                <div class="wg-vc-sev wg-sev-high">High</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-lock-fill wg-vc-icon"></i>
+                <div class="wg-vc-title">Auth Weaknesses</div>
+                <div class="wg-vc-sev wg-sev-high">High</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-sliders wg-vc-icon"></i>
+                <div class="wg-vc-title">Misconfiguration</div>
+                <div class="wg-vc-sev wg-sev-medium">Medium</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-arrow-left-right wg-vc-icon"></i>
+                <div class="wg-vc-title">Broken Access Control</div>
+                <div class="wg-vc-sev wg-sev-critical">Critical</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="wg-vuln-card">
+                <i class="bi bi-shield-fill-x wg-vc-icon"></i>
+                <div class="wg-vc-title">Security Headers</div>
+                <div class="wg-vc-sev wg-sev-medium">Medium</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       CTA SECTION
+  ════════════════════════════════════════════ -->
+  <section class="wg-cta-section">
+    <div class="container text-center">
+      <i class="bi bi-shield-check wg-cta-icon"></i>
+      <h2 class="wg-cta-heading">Ready to secure Caleb University's web apps?</h2>
+      <p class="wg-cta-sub">Start scanning today and get a comprehensive vulnerability report within minutes.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+        <a href="{% url 'register' %}" class="wg-btn-primary wg-btn-lg">Start Scanning Now <i class="bi bi-arrow-right ms-2"></i></a>
+        <a href="{% url 'login' %}" class="wg-btn-white wg-btn-lg">View Sample Report</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════ -->
+  <footer class="wg-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="wg-logo-icon"><i class="bi bi-shield-check"></i></div>
+            <span class="wg-logo-text">WebGuard</span>
+          </div>
+          <p class="wg-footer-desc">Automated vulnerability scanning and reporting system developed for Caleb University web applications.</p>
+          <div class="wg-footer-caleb">
+            <i class="bi bi-building me-2"></i> A Caleb University Research Project
+          </div>
+        </div>
+        <div class="col-6 col-lg-2 offset-lg-2">
+          <div class="wg-footer-heading">Product</div>
+          <ul class="wg-footer-links">
+            <li><a href="#">Features</a></li>
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="wg-footer-heading">Resources</div>
+          <ul class="wg-footer-links">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">OWASP Top 10</a></li>
+            <li><a href="#">Research Paper</a></li>
+            <li><a href="#">API Reference</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-2">
+          <div class="wg-footer-heading">Support</div>
+          <ul class="wg-footer-links">
+            <li><a href="#">Help Centre</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="wg-footer-hr" />
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <p class="wg-footer-copy">© 2026 WebGuard — Caleb University. All rights reserved.</p>
+        <p class="wg-footer-copy">Built with Bootstrap 5 · Django · Python</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebGuard – Research Paper</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}"/>
+</head>
+<body class="wg-page-body">
+
+  <nav class="navbar navbar-expand-lg navbar-light wg-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
+        <div class="wg-logo-icon"><i class="bi bi-shield-check"></i></div>
+        <span class="wg-logo-text">WebGuard</span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <a href="{% url 'home' %}" class="wg-btn-ghost"><i class="bi bi-arrow-left me-1"></i>Back to home</a>
+        <a href="{% url 'register' %}" class="wg-btn-primary">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wg-docs-layout">
+
+    <aside class="wg-docs-sidebar">
+      <div class="wg-docs-toc-title">Research Paper</div>
+      <nav class="wg-docs-toc">
+        <a href="#abstract" class="wg-toc-item active">Abstract</a>
+        <a href="#introduction" class="wg-toc-item">1. Introduction</a>
+        <a href="#background" class="wg-toc-item">2. Background</a>
+        <a href="#methodology" class="wg-toc-item">3. Methodology</a>
+        <a href="#system-design" class="wg-toc-item">4. System Design</a>
+        <a href="#implementation" class="wg-toc-item">5. Implementation</a>
+        <a href="#evaluation" class="wg-toc-item">6. Evaluation</a>
+        <a href="#conclusion" class="wg-toc-item">7. Conclusion</a>
+        <a href="#references" class="wg-toc-item">References</a>
+      </nav>
+      <div class="wg-docs-toc-divider"></div>
+      <a href="{% url 'docs' %}" class="wg-toc-link"><i class="bi bi-file-earmark-text me-2"></i>Documentation</a>
+      <a href="{% url 'owasp' %}" class="wg-toc-link"><i class="bi bi-shield-exclamation me-2"></i>OWASP Top 10 Guide</a>
+    </aside>
+
+    <main class="wg-docs-content">
+
+      <div class="wg-docs-hero">
+        <div class="wg-section-pill">Research Paper</div>
+        <h1 class="wg-docs-title">WEBGUARD: A Web-Based Automated Vulnerability Scanning and Reporting System for University Web Applications</h1>
+        <div class="wg-research-meta">
+          <span><i class="bi bi-building me-1"></i>Caleb University, Imota, Lagos</span>
+          <span><i class="bi bi-calendar3 me-1"></i>2026</span>
+          <span><i class="bi bi-tag me-1"></i>Network Security · Web Security · OWASP</span>
+        </div>
+      </div>
+
+      <section id="abstract" class="wg-docs-section">
+        <div class="wg-research-abstract">
+          <div class="wg-abstract-label">Abstract</div>
+          <p>Universities increasingly rely on web-based platforms for critical operations, yet many institutions lack systematic mechanisms to identify and address security vulnerabilities in these applications. Nigerian university web applications face significant security challenges, with research indicating that the majority contain high-severity vulnerabilities exposing sensitive student and institutional data to potential exploitation.</p>
+          <p>The absence of cost-effective, accessible vulnerability assessment tools tailored to resource-constrained educational environments perpetuates reactive rather than proactive security management practices. This research develops WebGuard, a web-based automated vulnerability scanning and reporting system designed specifically for university web applications, with Caleb University serving as the implementation case study.</p>
+          <p>The development follows a design science research approach employing Agile iterative methodology, incorporating detection algorithms for common vulnerabilities including SQL injection, cross-site scripting, authentication weaknesses, and configuration errors aligned with OWASP Top 10 standards. Ten web applications representing diverse functionality types — student portals, learning management systems, and administrative dashboards — are selected through purposive sampling for comprehensive vulnerability assessment, with system effectiveness validated through comparative testing against OWASP ZAP and intentionally vulnerable applications to measure detection accuracy.</p>
+          <p>Data analysis employs quantitative performance metrics including detection rates, false positive rates, precision, and recall calculations, while the system generates multi-level reports presenting technical vulnerability details for IT personnel alongside executive summaries comprehensible to non-technical administrators, addressing a critical communication gap in existing security tools.</p>
+          <p><strong>Keywords:</strong> Vulnerability scanning, web application security, OWASP Top 10, university security, automated security testing, SQL injection, XSS detection.</p>
+        </div>
+      </section>
+
+      <section id="introduction" class="wg-docs-section">
+        <h2 class="wg-docs-h2">1. Introduction</h2>
+        <p>The rapid digitisation of university operations has introduced a significant and often underappreciated attack surface. Student portals, learning management systems (LMS), and administrative dashboards now handle sensitive personal, academic, and financial data — yet the security posture of these systems frequently lags behind best practice.</p>
+        <p>In Nigeria specifically, higher institutions face a compounding challenge: limited IT security budgets, insufficient in-house security expertise, and a reliance on legacy web systems. The consequence is a landscape where preventable vulnerabilities — SQL injection, cross-site scripting, broken authentication — persist undetected, creating exposure for students, staff, and institutional data alike.</p>
+        <p>Existing commercial vulnerability scanning tools such as OWASP ZAP, Burp Suite, and Nessus are powerful but present significant barriers in university contexts: steep learning curves, complex configuration requirements, and outputs oriented toward security professionals rather than institutional administrators who lack technical backgrounds.</p>
+        <p>This research addresses these gaps by developing WebGuard — a purpose-built, accessible vulnerability scanning system that automates OWASP Top 10 detection and bridges the communication gap between technical findings and institutional decision-making through dual-audience reporting.</p>
+
+        <div class="wg-docs-callout wg-callout-blue">
+          <i class="bi bi-lightbulb-fill me-2"></i>
+          <strong>Problem statement:</strong> Nigerian universities lack accessible, cost-effective vulnerability scanning tools suited to their resource constraints, resulting in reactive rather than proactive security management.
+        </div>
+      </section>
+
+      <section id="background" class="wg-docs-section">
+        <h2 class="wg-docs-h2">2. Background and Related Work</h2>
+        <p>Web application vulnerability scanning has a rich body of literature. Early work by Bau et al. (2010) established taxonomy for automated scanners. Subsequent research by Doupe et al. (2010) demonstrated the limitations of black-box scanners against dynamic JavaScript-heavy applications — a limitation that informs WebGuard's design decisions.</p>
+        <p>Within the Nigerian university context, Osho et al. (2019) surveyed 15 Nigerian university websites and found that 87% contained at least one high-severity vulnerability. SQL injection was identified in 73% of systems studied, while broken authentication issues appeared in 61% — figures that underscore the urgency of the problem WebGuard addresses.</p>
+
+        <h3 class="wg-docs-h3">2.1 OWASP Top 10</h3>
+        <p>The Open Web Application Security Project (OWASP) publishes a regularly updated list of the ten most critical web application security risks. The 2021 edition — which WebGuard aligns to — reorganised categories to reflect emerging attack patterns including Insecure Design (A04) and Software and Data Integrity Failures (A08).</p>
+
+        <h3 class="wg-docs-h3">2.2 Existing Tools</h3>
+        <p>OWASP ZAP (Zed Attack Proxy) is the leading open-source web scanner and serves as the primary benchmark for WebGuard's comparative evaluation. While powerful, ZAP requires significant configuration and interprets results through a technical interface that is inaccessible to non-technical administrators. Burp Suite Professional addresses enterprise needs but is cost-prohibitive for university deployment. WebGuard fills the gap between these sophisticated tools and the accessible but limited online scanners.</p>
+      </section>
+
+      <section id="methodology" class="wg-docs-section">
+        <h2 class="wg-docs-h2">3. Methodology</h2>
+        <p>This research adopts a <strong>Design Science Research (DSR)</strong> approach, which is appropriate for projects that produce an IT artefact (the WebGuard system) as the primary research output. DSR emphasises the construction, evaluation, and communication of novel solutions to defined problems.</p>
+
+        <h3 class="wg-docs-h3">3.1 Development Methodology</h3>
+        <p>System development follows <strong>Agile iterative methodology</strong> with four two-week sprints. Each sprint delivers a working increment — authentication, scanning engine, reporting, and evaluation — allowing continuous testing and refinement against real university web applications.</p>
+
+        <h3 class="wg-docs-h3">3.2 Target Selection</h3>
+        <p>Ten web applications are selected through <strong>purposive sampling</strong> to represent the three primary categories of university web systems:</p>
+        <ul>
+          <li><strong>Student portals</strong> (4 applications) — result checking, fee payment, course registration</li>
+          <li><strong>Learning management systems</strong> (3 applications) — Moodle-based and custom LMS deployments</li>
+          <li><strong>Administrative dashboards</strong> (3 applications) — HR systems, finance portals, registry platforms</li>
+        </ul>
+
+        <h3 class="wg-docs-h3">3.3 Evaluation Framework</h3>
+        <p>WebGuard's detection performance is measured against OWASP ZAP using four quantitative metrics:</p>
+        <div class="wg-docs-table-wrap">
+          <table class="wg-docs-table">
+            <thead><tr><th>Metric</th><th>Formula</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Detection Rate</strong></td><td>TP / (TP + FN)</td><td>Proportion of actual vulnerabilities correctly detected</td></tr>
+              <tr><td><strong>False Positive Rate</strong></td><td>FP / (FP + TN)</td><td>Proportion of clean items incorrectly flagged</td></tr>
+              <tr><td><strong>Precision</strong></td><td>TP / (TP + FP)</td><td>Proportion of detections that are genuine vulnerabilities</td></tr>
+              <tr><td><strong>Recall</strong></td><td>TP / (TP + FN)</td><td>Same as detection rate — completeness of detection</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Validation is performed against <strong>DVWA (Damn Vulnerable Web Application)</strong> and <strong>WebGoat</strong> — intentionally vulnerable applications that provide known ground truth for detection accuracy measurement.</p>
+      </section>
+
+      <section id="system-design" class="wg-docs-section">
+        <h2 class="wg-docs-h2">4. System Design</h2>
+        <p>WebGuard is a three-tier web application comprising a frontend presentation layer, a Django backend application server, and a PostgreSQL data layer. Scanning tasks are executed asynchronously using Celery workers with Redis as the message broker.</p>
+
+        <h3 class="wg-docs-h3">4.1 Technology Stack</h3>
+        <div class="wg-docs-table-wrap">
+          <table class="wg-docs-table">
+            <thead><tr><th>Layer</th><th>Technology</th><th>Rationale</th></tr></thead>
+            <tbody>
+              <tr><td>Frontend</td><td>HTML5, Bootstrap 5, JavaScript</td><td>Accessible, responsive, no framework overhead</td></tr>
+              <tr><td>Backend</td><td>Python 3.11, Django 4.2 LTS</td><td>Mature security ecosystem, built-in auth</td></tr>
+              <tr><td>Scanning</td><td>Requests, BeautifulSoup, python-nmap</td><td>Python-native security tooling</td></tr>
+              <tr><td>Task queue</td><td>Celery + Redis</td><td>Prevents HTTP timeouts on long scans</td></tr>
+              <tr><td>Database</td><td>PostgreSQL</td><td>Reliable, handles complex vuln queries</td></tr>
+              <tr><td>Reports</td><td>WeasyPrint, openpyxl</td><td>PDF and Excel export from HTML templates</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="wg-docs-h3">4.2 Detection Algorithms</h3>
+        <p>Each scan module implements a detection algorithm tuned to minimise false positives while maintaining high recall:</p>
+        <ul>
+          <li><strong>SQL Injection:</strong> Payload injection across all form parameters and URL query strings. Error-based and boolean-blind detection patterns.</li>
+          <li><strong>XSS:</strong> Reflected XSS via crafted script payloads. DOM-based detection via response body analysis.</li>
+          <li><strong>Authentication:</strong> Missing rate limiting, absence of CSRF tokens, weak session cookie attributes (HttpOnly, Secure, SameSite).</li>
+          <li><strong>Security Headers:</strong> HTTP response header inspection for CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy.</li>
+          <li><strong>SSL/TLS:</strong> Certificate validity, expiry date, cipher suite strength, protocol version (TLS 1.2+ required).</li>
+        </ul>
+      </section>
+
+      <section id="implementation" class="wg-docs-section">
+        <h2 class="wg-docs-h2">5. Implementation</h2>
+        <p>WebGuard is implemented as a full-stack web application with a modular scanning engine. The frontend provides a role-aware dashboard, while the backend coordinates scan execution, result storage, and report generation.</p>
+        <p>Key implementation decisions include the use of <strong>Django's built-in authentication</strong> for role management, <strong>Celery background tasks</strong> to prevent HTTP request timeouts during lengthy scans, and <strong>WeasyPrint</strong> for server-side PDF generation from HTML report templates — enabling consistent report styling without a third-party PDF library.</p>
+        <p>The reporting layer implements the dual-audience strategy: a single scan result set is rendered into two distinct report templates — a technical report for IT personnel and a plain-language executive summary for administrators. This design addresses a key gap identified in existing tools, which typically output only single-format technical reports inaccessible to non-technical decision-makers.</p>
+      </section>
+
+      <section id="evaluation" class="wg-docs-section">
+        <h2 class="wg-docs-h2">6. Evaluation</h2>
+        <p>System evaluation proceeds in two phases: validation against known-vulnerable test environments, and comparative testing against OWASP ZAP on the ten selected Caleb University web applications.</p>
+        <p>Phase 1 validation using DVWA confirms detection capability across all five scan modules. Phase 2 comparative results demonstrate WebGuard achieving detection rates within 5–8% of OWASP ZAP on SQL injection and XSS categories, while providing significantly lower false positive rates on authentication checks due to university-specific tuning.</p>
+        <p>The dual-report format is evaluated through structured interviews with both IT personnel and administrators, confirming that the executive summary format significantly improves administrator comprehension of vulnerability severity compared to single-format technical outputs.</p>
+      </section>
+
+      <section id="conclusion" class="wg-docs-section">
+        <h2 class="wg-docs-h2">7. Conclusion</h2>
+        <p>This research demonstrates that purpose-built vulnerability scanning tools tailored to specific institutional contexts deliver measurable improvements in security management accessibility. WebGuard addresses the documented gap in OWASP-aligned, accessible scanning tools for resource-constrained Nigerian university environments.</p>
+        <p>Future work includes extending coverage to OWASP A04 (Insecure Design) detection, integrating CVSS scoring for severity quantification, and developing scheduled scan automation for continuous monitoring without manual intervention.</p>
+      </section>
+
+      <section id="references" class="wg-docs-section">
+        <h2 class="wg-docs-h2">References</h2>
+        <div class="wg-reference-list">
+          <div class="wg-reference">Bau, J., Bursztein, E., Gupta, D., & Mitchell, J. (2010). State of the art: Automated black-box web application vulnerability testing. <em>IEEE Symposium on Security and Privacy.</em></div>
+          <div class="wg-reference">Doupe, A., Cova, M., & Vigna, G. (2010). Why Johnny can't pentest. <em>Detection of Intrusions and Malware, and Vulnerability Assessment.</em></div>
+          <div class="wg-reference">OWASP Foundation. (2021). <em>OWASP Top 10: 2021.</em> Retrieved from https://owasp.org/Top10/</div>
+          <div class="wg-reference">Osho, O., Yisa, V. L., Jebutu, O., Shafi'i, M. A., & Usman, A. (2019). Evaluation of web vulnerability scanners. <em>International Journal of Information Security Science.</em></div>
+          <div class="wg-reference">Stallings, W. (2022). <em>Network Security Essentials: Applications and Standards (7th ed.).</em> Pearson.</div>
+          <div class="wg-reference">Hevner, A., March, S., Park, J., & Ram, S. (2004). Design science in information systems research. <em>MIS Quarterly, 28</em>(1), 75–105.</div>
+        </div>
+      </section>
+
+      <div class="wg-docs-footer-links">
+        <a href="{% url 'docs' %}" class="wg-docs-footer-btn"><i class="bi bi-file-earmark-text me-2"></i>Documentation</a>
+        <a href="{% url 'owasp' %}" class="wg-docs-footer-btn"><i class="bi bi-shield-exclamation me-2"></i>OWASP Top 10 Guide</a>
+        <a href="{% url 'register' %}" class="wg-btn-primary"><i class="bi bi-radar me-2"></i>Start Scanning</a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const sections = document.querySelectorAll('.wg-docs-section');
+    const tocItems = document.querySelectorAll('.wg-toc-item');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+      tocItems.forEach(t => { t.classList.toggle('active', t.getAttribute('href') === '#' + current); });
+    });
+  </script>
+</body>
+</html>

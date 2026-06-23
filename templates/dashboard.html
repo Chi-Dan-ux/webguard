@@ -1,0 +1,474 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WebGuard — Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}"/>
+</head>
+<body>
+  <div style="display:none">{% csrf_token %}</div>
+  <script>window.USER_ROLE = "{{ user_role|default:'it' }}";</script>
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
+    <span class="logo-text">Web<span>Guard</span></span>
+  </div>
+  <nav class="sidebar-nav">
+    {% if user_role == 'admin' %}
+    <div class="nav-section-label">MAIN</div>
+    <a href="#" class="nav-item active" data-page="dashboard"><i class="fas fa-gauge-high"></i><span>Dashboard</span></a>
+    <a href="#" class="nav-item" data-page="reports"><i class="fas fa-file-shield"></i><span>Reports</span></a>
+    <div class="nav-section-label mt-3">SYSTEM</div>
+    <a href="#" class="nav-item" data-page="settings"><i class="fas fa-gear"></i><span>Settings</span></a>
+    <a href="{% url 'logout' %}" class="nav-item logout"><i class="fas fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+    {% else %}
+    <div class="nav-section-label">MAIN</div>
+    <a href="#" class="nav-item active" data-page="dashboard"><i class="fas fa-gauge-high"></i><span>Dashboard</span></a>
+    <a href="#" class="nav-item" data-page="scan"><i class="fas fa-radar"></i><span>New Scan</span><span class="nav-badge">+</span></a>
+    <a href="#" class="nav-item" data-page="history"><i class="fas fa-clock-rotate-left"></i><span>Scan History</span></a>
+    <a href="#" class="nav-item" data-page="reports"><i class="fas fa-file-shield"></i><span>Reports</span></a>
+    <div class="nav-section-label mt-3">ANALYSIS</div>
+    <a href="#" class="nav-item" data-page="vulnerabilities"><i class="fas fa-bug"></i><span>Vulnerabilities</span></a>
+    <a href="#" class="nav-item" data-page="targets"><i class="fas fa-crosshairs"></i><span>Targets</span></a>
+    <a href="#" class="nav-item" data-page="owasp"><i class="fas fa-list-check"></i><span>OWASP Top 10</span></a>
+    <div class="nav-section-label mt-3">SYSTEM</div>
+    <a href="#" class="nav-item" data-page="settings"><i class="fas fa-gear"></i><span>Settings</span></a>
+    <a href="{% url 'logout' %}" class="nav-item logout"><i class="fas fa-arrow-right-from-bracket"></i><span>Logout</span></a>
+    {% endif %}
+  </nav>
+  <div class="sidebar-user">
+    <div class="user-avatar">{{ initials }}</div>
+    <div class="user-info">
+      <div class="user-name">{{ full_name }}</div>
+      <div class="user-role">{{ role_display }}</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main-content" id="mainContent">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+      <div class="breadcrumb-wrap">
+        <span class="breadcrumb-item">WebGuard</span>
+        <i class="fas fa-chevron-right breadcrumb-sep"></i>
+        <span class="breadcrumb-item active" id="pageTitle">Dashboard</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search…" class="topbar-search"/>
+      </div>
+      <button class="topbar-btn"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+      <div class="topbar-avatar">{{ initials }}</div>
+    </div>
+  </header>
+
+  <!-- ══ DASHBOARD PAGE ══ -->
+  <div class="page-content" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Security Overview</h1>
+        <p class="page-subtitle">WebGuard &mdash; University Web Application Security Monitor</p>
+      </div>
+      {% if user_role != 'admin' %}
+      <button class="btn-primary-cta" onclick="showPage('scan')"><i class="fas fa-radar"></i> New Scan</button>
+      {% endif %}
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-globe"></i></div>
+        <div class="stat-body">
+          <div class="stat-number" id="stat-apps">0</div>
+          <div class="stat-label">Apps Scanned</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red"><i class="fas fa-triangle-exclamation"></i></div>
+        <div class="stat-body">
+          <div class="stat-number" id="stat-vulns">0</div>
+          <div class="stat-label">Vulnerabilities Found</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-fire"></i></div>
+        <div class="stat-body">
+          <div class="stat-number" id="stat-crit">0</div>
+          <div class="stat-label">Critical Issues</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-shield-check"></i></div>
+        <div class="stat-body">
+          <div class="stat-number" id="stat-score">—</div>
+          <div class="stat-label">Avg Security Score</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mid Row -->
+    <div class="mid-row">
+      <div class="card-block wide">
+        <div class="block-header">
+          <h3>Recent Scans</h3>
+          <button class="btn-link" onclick="showPage('history')">View All <i class="fas fa-arrow-right"></i></button>
+        </div>
+        <div class="table-wrap">
+          <table class="wg-table">
+            <thead><tr><th>Target URL</th><th>Type</th><th>Score</th><th>Vulns</th><th>Status</th><th>Date</th><th></th></tr></thead>
+            <tbody id="recentScansTbody">
+              <tr><td colspan="7" class="empty-cell"><i class="fas fa-radar"></i><br>No scans yet. <button class="btn-link-inline" onclick="showPage('scan')">Start your first scan</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card-block narrow">
+        <div class="block-header"><h3>Overall Score</h3></div>
+        <div class="score-ring-wrap">
+          <svg viewBox="0 0 120 120" class="score-ring">
+            <circle cx="60" cy="60" r="50" class="ring-bg"/>
+            <circle cx="60" cy="60" r="50" class="ring-fill" id="ringFill"/>
+          </svg>
+          <div class="score-ring-label">
+            <span class="score-big" id="scoreRingLabel">—</span>
+            <span class="score-sub">/ 100</span>
+          </div>
+        </div>
+        <div class="score-breakdown">
+          <div class="sb-row"><span class="sb-label">Critical</span><div class="sb-bar-wrap"><div class="sb-bar" id="sev-bar-critical" style="width:0%;background:var(--danger)"></div></div><span class="sev-cnt" id="sev-cnt-critical">0</span></div>
+          <div class="sb-row"><span class="sb-label">High</span><div class="sb-bar-wrap"><div class="sb-bar" id="sev-bar-high" style="width:0%;background:var(--warning)"></div></div><span class="sev-cnt" id="sev-cnt-high">0</span></div>
+          <div class="sb-row"><span class="sb-label">Medium</span><div class="sb-bar-wrap"><div class="sb-bar" id="sev-bar-medium" style="width:0%;background:#F59E0B"></div></div><span class="sev-cnt" id="sev-cnt-medium">0</span></div>
+          <div class="sb-row"><span class="sb-label">Low</span><div class="sb-bar-wrap"><div class="sb-bar" id="sev-bar-low" style="width:0%;background:var(--success)"></div></div><span class="sev-cnt" id="sev-cnt-low">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="bottom-row">
+      {% if user_role != 'admin' %}
+      <div class="card-block">
+        <div class="block-header"><h3>Vulnerability Breakdown</h3></div>
+        <div class="vuln-chart-bars">
+          <div class="vcb-item"><div class="vcb-val" id="vcb-sqli-lbl">0</div><div class="vcb-bar-wrap"><div class="vcb-bar" id="vcb-sqli" style="height:0%"></div></div><span class="vcb-label">SQLi</span></div>
+          <div class="vcb-item"><div class="vcb-val" id="vcb-xss-lbl">0</div><div class="vcb-bar-wrap"><div class="vcb-bar xss" id="vcb-xss" style="height:0%"></div></div><span class="vcb-label">XSS</span></div>
+          <div class="vcb-item"><div class="vcb-val" id="vcb-auth-lbl">0</div><div class="vcb-bar-wrap"><div class="vcb-bar auth" id="vcb-auth" style="height:0%"></div></div><span class="vcb-label">Auth</span></div>
+          <div class="vcb-item"><div class="vcb-val" id="vcb-config-lbl">0</div><div class="vcb-bar-wrap"><div class="vcb-bar config" id="vcb-config" style="height:0%"></div></div><span class="vcb-label">Config</span></div>
+          <div class="vcb-item"><div class="vcb-val" id="vcb-other-lbl">0</div><div class="vcb-bar-wrap"><div class="vcb-bar other" id="vcb-other" style="height:0%"></div></div><span class="vcb-label">Other</span></div>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="block-header"><h3>Severity Distribution</h3></div>
+        <div class="severity-list">
+          <div class="sev-row"><span class="sev-dot critical"></span><span class="sev-name">Critical</span><div class="sev-bar-wrap"><div class="sev-bar" id="sev-bar-critical2" style="width:0%"></div></div><span class="sev-count" id="sev-cnt-critical2">0</span></div>
+          <div class="sev-row"><span class="sev-dot high"></span><span class="sev-name">High</span><div class="sev-bar-wrap"><div class="sev-bar high" id="sev-bar-high2" style="width:0%"></div></div><span class="sev-count" id="sev-cnt-high2">0</span></div>
+          <div class="sev-row"><span class="sev-dot medium"></span><span class="sev-name">Medium</span><div class="sev-bar-wrap"><div class="sev-bar medium" id="sev-bar-medium2" style="width:0%"></div></div><span class="sev-count" id="sev-cnt-medium2">0</span></div>
+          <div class="sev-row"><span class="sev-dot low"></span><span class="sev-name">Low</span><div class="sev-bar-wrap"><div class="sev-bar low" id="sev-bar-low2" style="width:0%"></div></div><span class="sev-count" id="sev-cnt-low2">0</span></div>
+        </div>
+      </div>
+      {% else %}
+      <div class="card-block wide" style="grid-column: span 2;">
+        <div class="block-header"><h3>Organization Risk Summary</h3></div>
+        <div id="adminRiskSummary" style="padding: 20px 0; color: #334155; font-size: 14px; line-height: 1.8;">
+          <p>Loading summary...</p>
+        </div>
+      </div>
+      {% endif %}
+      <div class="card-block">
+        <div class="block-header"><h3>Quick Actions</h3></div>
+        <div class="quick-actions">
+          {% if user_role != 'admin' %}
+          <button class="qa-btn" onclick="showPage('scan')"><i class="fas fa-radar"></i><span>New Scan</span></button>
+          {% endif %}
+          <button class="qa-btn" onclick="showPage('reports')"><i class="fas fa-file-pdf"></i><span>Reports</span></button>
+          {% if user_role != 'admin' %}
+          <button class="qa-btn" onclick="showPage('vulnerabilities')"><i class="fas fa-bug"></i><span>Vulns</span></button>
+          <button class="qa-btn" onclick="showPage('owasp')"><i class="fas fa-list-check"></i><span>OWASP</span></button>
+          {% endif %}
+        </div>
+        <div class="caleb-badge"><i class="fas fa-university"></i><span>Caleb University Research Project</span></div>
+      </div>
+    </div>
+  </div><!-- end page-dashboard -->
+
+
+  <!-- ══ NEW SCAN PAGE ══ -->
+
+  <!-- ══ NEW SCAN PAGE ══ -->
+  <div class="page-content hidden" id="page-scan">
+    <div class="page-header">
+      <div><h1 class="page-title">New Scan</h1><p class="page-subtitle">Scan any web application for vulnerabilities</p></div>
+    </div>
+    <div class="scan-layout">
+      <div class="card-block scan-form-card">
+        <div class="block-header"><h3><i class="fas fa-radar"></i> Scan Configuration</h3></div>
+
+        <div class="form-group-wg">
+          <label class="wg-label">Target URL <span class="req">*</span></label>
+          <div class="input-with-icon">
+            <i class="fas fa-globe"></i>
+            <input type="url" class="wg-input" id="targetUrl" placeholder="https://example.com"/>
+          </div>
+          <span class="hint">Any publicly accessible website — not limited to Caleb University</span>
+        </div>
+
+        <div class="form-group-wg">
+          <label class="wg-label">Application Type</label>
+          <select class="wg-input" id="appType">
+            <option value="Web App">Generic Web App</option>
+            <option value="Student Portal">Student Portal</option>
+            <option value="LMS">Learning Management System</option>
+            <option value="Admin Dashboard">Admin Dashboard</option>
+            <option value="E-Commerce">E-Commerce</option>
+            <option value="Government">Government Site</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group-wg">
+          <label class="wg-label">Scan Depth</label>
+          <div class="depth-selector">
+            <label class="depth-opt active"><input type="radio" name="depth" value="quick" checked/><i class="fas fa-bolt"></i><span>Quick</span><small>~2 min</small></label>
+            <label class="depth-opt"><input type="radio" name="depth" value="standard"/><i class="fas fa-shield"></i><span>Standard</span><small>~10 min</small></label>
+            <label class="depth-opt"><input type="radio" name="depth" value="deep"/><i class="fas fa-magnifying-glass"></i><span>Deep</span><small>~30 min</small></label>
+          </div>
+        </div>
+
+        <div class="form-group-wg">
+          <label class="wg-label">Vulnerability Checks</label>
+          <div class="checks-grid">
+            <label class="check-item checked"><input type="checkbox" checked/><span>SQL Injection</span></label>
+            <label class="check-item checked"><input type="checkbox" checked/><span>XSS</span></label>
+            <label class="check-item checked"><input type="checkbox" checked/><span>Auth Weakness</span></label>
+            <label class="check-item checked"><input type="checkbox" checked/><span>Config Errors</span></label>
+            <label class="check-item"><input type="checkbox"/><span>CSRF</span></label>
+            <label class="check-item"><input type="checkbox"/><span>Broken Access</span></label>
+            <label class="check-item"><input type="checkbox"/><span>Sensitive Data</span></label>
+            <label class="check-item"><input type="checkbox"/><span>Headers Check</span></label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-secondary-cta" onclick="showPage('dashboard')">Cancel</button>
+          <button class="btn-primary-cta" onclick="startScan()"><i class="fas fa-play"></i> Launch Scan</button>
+        </div>
+      </div>
+
+      <!-- Console -->
+      <div class="card-block scan-progress-card">
+        <div class="block-header"><h3><i class="fas fa-terminal"></i> Scan Console</h3></div>
+
+        <div class="progress-idle" id="progressIdle">
+          <i class="fas fa-radar idle-icon"></i>
+          <p>Configure your target and launch a scan.<br><span style="color:var(--text-3);font-size:.78rem">Any URL works — university sites, government portals, or any web app.</span></p>
+        </div>
+
+        <div class="progress-active hidden" id="progressActive">
+          <div class="scan-target-label" id="scanTargetLabel">Scanning: —</div>
+          <div class="overall-progress">
+            <div class="prog-bar-wrap"><div class="prog-bar-fill" id="progBarFill" style="width:0%"></div></div>
+            <span class="prog-pct" id="progPct">0%</span>
+          </div>
+          <div class="scan-steps" id="scanSteps">
+            <div class="scan-step" data-step="1"><span class="step-dot"></span><span class="step-text">Initializing scanner</span></div>
+            <div class="scan-step" data-step="2"><span class="step-dot"></span><span class="step-text">Crawling application pages</span></div>
+            <div class="scan-step" data-step="3"><span class="step-dot"></span><span class="step-text">Testing SQL Injection vectors</span></div>
+            <div class="scan-step" data-step="4"><span class="step-dot"></span><span class="step-text">Testing XSS vulnerabilities</span></div>
+            <div class="scan-step" data-step="5"><span class="step-dot"></span><span class="step-text">Checking authentication weaknesses</span></div>
+            <div class="scan-step" data-step="6"><span class="step-dot"></span><span class="step-text">Auditing configuration &amp; headers</span></div>
+            <div class="scan-step" data-step="7"><span class="step-dot"></span><span class="step-text">Generating vulnerability report</span></div>
+          </div>
+          <div class="console-log" id="consoleLog"></div>
+        </div>
+
+        <div class="progress-done hidden" id="progressDone">
+          <div class="done-icon"><i class="fas fa-check-circle"></i></div>
+          <h4>Scan Complete!</h4>
+          <p id="doneMessage"></p>
+          <div class="done-actions">
+            <button class="btn-primary-cta" id="viewReportBtn"><i class="fas fa-file-shield"></i> View Report</button>
+            <button class="btn-secondary-cta" onclick="resetScan()">New Scan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HISTORY PAGE ══ -->
+  <div class="page-content hidden" id="page-history">
+    <div class="page-header">
+      <div><h1 class="page-title">Scan History</h1><p class="page-subtitle">All past scans and results</p></div>
+      {% if user_role != 'admin' %}
+      <button class="btn-primary-cta" onclick="showPage('scan')"><i class="fas fa-radar"></i> New Scan</button>
+      {% endif %}
+    </div>
+    <div class="card-block">
+      <div class="table-wrap">
+        <table class="wg-table">
+          <thead><tr><th>#</th><th>Target URL</th><th>Type</th><th>Depth</th><th>Score</th><th>Vulns</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody id="historyTbody">
+            <tr><td colspan="9" class="empty-cell"><i class="fas fa-clock-rotate-left"></i><br>No scan history yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REPORTS PAGE ══ -->
+  <div class="page-content hidden" id="page-reports">
+    <div class="page-header">
+      <div><h1 class="page-title">Reports</h1><p class="page-subtitle">View and download scan reports</p></div>
+    </div>
+    <div id="reportsContainer">
+      {% if user_role == 'admin' %}
+      <div class="empty-state"><i class="fas fa-file-shield"></i><p>No scan reports are available yet. Reports will appear here once your IT team completes a scan.</p></div>
+      {% else %}
+      <div class="empty-state"><i class="fas fa-file-shield"></i><p>No reports yet. Run a scan to generate your first report.</p><button class="btn-primary-cta" onclick="showPage('scan')"><i class="fas fa-radar"></i> Start Scan</button></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ══ VULNERABILITIES PAGE ══ -->
+  <div class="page-content hidden" id="page-vulnerabilities">
+    <div class="page-header">
+      <div><h1 class="page-title">Vulnerabilities</h1><p class="page-subtitle">All detected vulnerabilities — click the Status dropdown to update</p></div>
+    </div>
+    <div class="card-block">
+      <div class="table-wrap">
+        <table class="wg-table">
+          <thead><tr><th>ID</th><th>Vulnerability</th><th>Target</th><th>Severity</th><th>OWASP</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="vulnsTbody">
+            <tr><td colspan="7" class="empty-cell"><i class="fas fa-bug"></i><br>No vulnerabilities detected yet. Run a scan first.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TARGETS PAGE ══ -->
+  <div class="page-content hidden" id="page-targets">
+    <div class="page-header">
+      <div><h1 class="page-title">Targets</h1><p class="page-subtitle">All scanned web applications</p></div>
+      {% if user_role != 'admin' %}
+      <button class="btn-primary-cta" onclick="showPage('scan')"><i class="fas fa-plus"></i> Add Target</button>
+      {% endif %}
+    </div>
+    <div id="targetsContainer">
+      <div class="empty-state"><i class="fas fa-crosshairs"></i><p>No targets scanned yet.</p><button class="btn-primary-cta" onclick="showPage('scan')"><i class="fas fa-radar"></i> Scan a Target</button></div>
+    </div>
+  </div>
+
+  <!-- ══ OWASP PAGE ══ -->
+  <div class="page-content hidden" id="page-owasp">
+    <div class="page-header">
+      <div><h1 class="page-title">OWASP Top 10</h1><p class="page-subtitle">Compliance status — updates after each scan</p></div>
+    </div>
+    <div class="owasp-grid" id="owaspContainer">
+      <div class="empty-state full" style="grid-column:1/-1"><i class="fas fa-list-check"></i><p>Run a scan to see your OWASP Top 10 compliance status.</p></div>
+    </div>
+  </div>
+
+  <!-- ══ SETTINGS PAGE ══ -->
+  <div class="page-content hidden" id="page-settings">
+    <div class="page-header"><div><h1 class="page-title">Settings</h1><p class="page-subtitle">Account and scan configuration</p></div></div>
+    <div class="settings-layout">
+      <div class="card-block">
+        <div class="block-header"><h3>Profile</h3></div>
+        <div class="form-group-wg"><label class="wg-label">Full Name</label><input type="text" class="wg-input" value="{{ full_name }}"/></div>
+        <div class="form-group-wg"><label class="wg-label">Email</label><input type="email" class="wg-input" value="{{ request.user.email }}"/></div>
+        <div class="form-group-wg"><label class="wg-label">Role</label><select class="wg-input">
+          <option {% if user_role == 'it' %}selected{% endif %}>IT Personnel</option>
+          <option {% if user_role == 'admin' %}selected{% endif %}>Administrator</option>
+        </select></div>
+        <button class="btn-primary-cta">Save Changes</button>
+      </div>
+      <div class="card-block">
+        <div class="block-header"><h3>Scan Defaults</h3></div>
+        <div class="form-group-wg"><label class="wg-label">Default Scan Depth</label><select class="wg-input"><option>Quick (~2 min)</option><option selected>Standard (~10 min)</option><option>Deep (~30 min)</option></select></div>
+        <div class="form-group-wg"><label class="wg-label">Auto-schedule</label><select class="wg-input"><option>Disabled</option><option>Weekly</option><option>Monthly</option></select></div>
+        <button class="btn-primary-cta">Save Defaults</button>
+        <div style="margin-top:16px;" class="caleb-badge"><i class="fas fa-university"></i><span>Caleb University Research Project · WebGuard v1.0</span></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ REPORT MODAL ═══ -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title"><i class="fas fa-file-shield"></i> Vulnerability Report</div>
+        <div class="modal-subtitle" id="modal-url"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="modal-meta">
+      <span><i class="fas fa-calendar"></i> <span id="modal-date"></span></span>
+      <span><i class="fas fa-layer-group"></i> <span id="modal-depth"></span></span>
+    </div>
+
+    <div class="modal-view-toggle" style="display:flex; gap:8px; margin:14px 0;">
+      {% if user_role != 'admin' %}
+      <button class="modal-toggle-btn active" id="toggleTechnicalBtn" onclick="switchReportView('technical')" style="flex:1; padding:8px; border-radius:8px; border:1px solid #1B4FD8; background:#1B4FD8; color:#fff; cursor:pointer;">
+        <i class="fas fa-code"></i> Technical View
+      </button>
+      {% endif %}
+      <button class="modal-toggle-btn" id="toggleExecutiveBtn" onclick="switchReportView('executive')" style="flex:1; padding:8px; border-radius:8px; border:1px solid #1B4FD8; background:#fff; color:#1B4FD8; cursor:pointer;">
+        <i class="fas fa-user-tie"></i> Executive Summary
+      </button>
+    </div>
+
+    <div id="technicalReportView">
+      <div class="modal-score-row">
+        <div class="modal-score-card">
+          <div class="modal-score-big" id="modal-score">—</div>
+          <div class="modal-score-lbl">Security Score</div>
+        </div>
+        <div class="modal-summary-grid">
+          <div class="ms-item"><span id="modal-total">0</span><small>Total</small></div>
+          <div class="ms-item critical"><span id="modal-crit">0</span><small>Critical</small></div>
+          <div class="ms-item high"><span id="modal-high">0</span><small>High</small></div>
+          <div class="ms-item medium"><span id="modal-med">0</span><small>Medium</small></div>
+          <div class="ms-item low"><span id="modal-low">0</span><small>Low</small></div>
+        </div>
+      </div>
+      <div class="modal-vuln-list" id="modal-vuln-list"></div>
+    </div>
+
+    <div id="executiveReportView" style="display:none;">
+      <div style="background:#EFF6FF; border-left:4px solid #1B4FD8; border-radius:8px; padding:16px 20px; margin-bottom:16px;">
+        <div style="font-size:13px; color:#64748B; margin-bottom:4px;">Overall Risk Level</div>
+        <div id="exec-risk-level" style="font-size:24px; font-weight:700; color:#1B4FD8;">—</div>
+        <div id="exec-risk-message" style="font-size:14px; color:#334155; margin-top:6px;"></div>
+      </div>
+      <div style="margin-bottom:8px; font-weight:600; color:#0F172A;">Summary of Findings</div>
+      <ul id="exec-findings-list" style="padding-left:20px; color:#334155; font-size:14px; line-height:1.7;"></ul>
+      <div style="background:#F0FDF4; border-left:4px solid #16A34A; border-radius:8px; padding:14px 18px; margin-top:16px; font-size:14px; color:#14532D;">
+        <i class="fas fa-lightbulb"></i> <span id="exec-recommendation"></span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary-cta" onclick="closeModal()">Close</button>
+      <button class="btn-primary-cta" id="exportPdfBtn"><i class="fas fa-download"></i> Export PDF</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>
